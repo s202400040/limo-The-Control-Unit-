@@ -1,4 +1,4 @@
-LIMO INSTRUCTION SET ARCHITECTURE(ISA) SPECIFICATION
+## LIMO INSTRUCTION SET ARCHITECTURE(ISA) SPECIFICATION
 
 Project: Sesotho-Language Processor Derived from RISC-V
 
@@ -7,7 +7,7 @@ Milestone: M1- LIMO ISA Specification
 Team name: The Control Unit
 
 
-1.	A1 – Machine Style
+## 1.	A1 – Machine Style
 
 |Property| 	LIMO decision| 	Reason|
 |:---| :---|:---|
@@ -22,7 +22,7 @@ Excluded 	|Multiply/divide, floating point, CSRs, exceptions |	Explicitly exclud
 
 Main departure from RV32I: LIMO uses 16 registers instead of 32. Register identifiers are therefore 4 bits. The remaining instruction bits are reorganised so every instruction is still exactly 32 bits. 
 
-2. A2 – Register Architecture
+## 2. A2 – Register Architecture
 
 LIMO has sixteen 32-bit general-purpose registers, r0–r15. Each register is selected using a 4-bit field. r0 is hardwired to zero and ignores writes, r1 is the stack pointer and r2 is the return-address register. 
 
@@ -39,7 +39,7 @@ LIMO has sixteen 32-bit general-purpose registers, r0–r15. Each register is se
 Register-field consequence 
 Sixteen registers require 4 bits because 2^4 = 16. Compared with a 32-register design requiring 5-bit register fields, this saves one bit for each register identifier but increases register pressure
 
-3. A3 – Instruction Set
+## 3. A3 – Instruction Set
 
 LIMO contains 11 instructions.
 
@@ -57,7 +57,7 @@ LIMO contains 11 instructions.
 |selekane| 	Conditional branch|
 |qhoma|	jump|
 
-4. A4 – Sesotho Assembly
+## 4. A4 – Sesotho Assembly
 
 Mnemonics are Sesotho words or documented abbreviations and are typeable using a standard keyboard. Operands are separated by commas. Labels end with a colon and comments begin with #. 
 
@@ -78,6 +78,43 @@ le 	|AND 	|rd = rs1 AND rs2 	|R 	|AND 	|le rd, rs1, rs2|
 Apostrophe handling 
 
 The assembler accepts the ASCII apostrophe (') inside a mnemonic token so future Sesotho mnemonics can represent forms such as ts' or ch'. Curly Unicode apostrophes are rejected to keep tokenisation predictable on a standard keyboard.
+
+## 5. A5 – Encoding and Specification
+
+All instructions are 32 bits. The major opcode families mirror familiar RV32I categories, but the complete encodings are LIMO-specific because LIMO uses 4-bit registers. 
+The pad bits are unused bits that are deliberately included in the instruction format to make the total instruction exactly 32 bits while keeping the other fields in their required positions. They do not represent a register, opcode, immediate value, or operation. The processor simply ignores them during instruction decoding.
+
+
+### 32-Bit Instruction Format Diagrams (4-Bit Register Specifiers)
+
+LIMO uses 32-bit instruction formats with 4-bit register specifiers.
+
+### R-Type
+
+| funct7 (7b) | rs2 (4b) | rs1 (4b) | funct3 (3b) | rd (4b) | pad (3b) | op (7b) |
+|---|---|---|---|---|---|---|
+
+### I-Type
+
+| imm[11:0] (12b) | rs1 (4b) | funct3 (3b) | rd (4b) | pad (3b) | op (7b) |
+|---|---|---|---|---|---|
+
+### S-Type
+
+| imm[11:5] (7b) | rs2 (4b) | rs1 (4b) | funct3 (3b) | imm[4:0] (5b) | pad (2b) | op (7b) |
+|---|---|---|---|---|---|---|
+
+### B-Type
+
+| imm[12\|10:5] (7b) | rs2 (4b) | rs1 (4b) | funct3 (3b) | imm[4:1\|11] (5b) | pad (2b) | op (7b) |
+|---|---|---|---|---|---|---|
+
+### J-Type
+
+| imm[20\|10:1\|11\|19:12] (17b) | rd (4b) | pad (4b) | op (7b) |
+|---|---|---|---|
+
+
 
 
 
