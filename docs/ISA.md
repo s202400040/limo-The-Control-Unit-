@@ -114,8 +114,51 @@ LIMO uses 32-bit instruction formats with 4-bit register specifiers.
 | imm[20\|10:1\|11\|19:12] (17b) | rd (4b) | pad (4b) | op (7b) |
 |---|---|---|---|
 
+## Opcode / funct assignments
 
+|Instruction| 	opcode| 	funct3| 	funct7| 
+|:---|:---|:---|:---|
+|eketsa 	|0110011 	|000 	|0000000 |
+|fokotsa |	0110011| 	000| 	0100000| 
+|le 	|0110011 |	111 |	0000000 |
+|kapa| 	0110011 |	110| 	0000000| 
+|suthela 	|0110011 	|001 	|0000000 |
+|eketsi|	0010011| 	000| 	—| 
+|bala 	|0000011 	|010 	|— |
+|boloka| 	0100011 |	010| 	—| 
+|lekana |	1100011 	|000 |	— |
+|selekane| 	1100011 |	001| 	— |
+|qhoma|	1101111 	|— 	|— |
 
+## Hand-encoded examples 
 
+## eketsa r7, r8, r9 
 
+Binary: 0000 0001 0011 0000 0001 1100 0011 0011 
+
+Hex: 0x01301C33
+
+## eketsi r10, r7, 10 
+
+Binary: 0000 0000 1010 0111 0001 0100 0001 0011
+
+Hex: 0x00A71413 
+
+## boloka r10, 8(r7) 
+
+Binary: 0000 0001 0100 1111 0001 0000 0010 0011 
+
+Hex: 0x014F1023 
+
+## lekana r7, r8, +8 
+
+Binary: 0000 0001 0000 1111 0000 1000 0110 0011
+
+Hex: 0x010F0863 
+
+## qhoma r15, +16 
+
+Binary: 0000 0000 0000 0000 0100 0111 1110 1111 
+
+Hex: 0x000047EF 
 
