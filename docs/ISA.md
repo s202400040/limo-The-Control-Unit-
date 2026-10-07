@@ -57,5 +57,28 @@ LIMO contains 11 instructions.
 |selekane| 	Conditional branch|
 |qhoma|	jump|
 
+4. A4 – Sesotho Assembly
+
+Mnemonics are Sesotho words or documented abbreviations and are typeable using a standard keyboard. Operands are separated by commas. Labels end with a colon and comments begin with #. 
+
+|Mnemonic| 	Meaning| 	Operation| 	Format| 	RV32I equivalent| 	Example|
+|:---|:---|:---|:---|:---|:---|
+|eketsa| 	add| 	rd = rs1 + rs2| 	R |	ADD| 	eketsa rd, rs1, rs2| 
+|fokotsa 	|subtract 	|rd = rs1 − rs2 |	R 	|SUB 	|fokotsa rd, rs1, rs2| 
+|eketsi|	add immediate| 	rd = rs1 + imm|	I| 	ADDI |	eketsi rd, rs1, imm| 
+le 	|AND 	|rd = rs1 AND rs2 	|R 	|AND 	|le rd, rs1, rs2|
+|kapa |	OR| 	rd = rs1 OR rs2| 	R| 	OR |	kapa rd, rs1, rs2|
+|suthela| 	shift left logical| 	rd = rs1 << rs2[4:0] |	R| 	SLL |	suthela rd, rs1, rs2 |
+|bala 	|load word 	|rd = Mem[rs1+imm] 	|I 	|LW 	|bala rd, imm(rs1)|
+|boloka |	store word 	|Mem[rs1+imm] =rs2| 	S 	|SW |	boloka rs2, imm(rs1)| 
+|lekana 	|branch if equal 	|if rs1 == rs2 PC+= offset| 	B 	|BEQ 	|lekana rs1, rs2, mosebetsing|
+|selekane| 	branch if not equal| 	if rs1 != rs2: PC+= offset |	B |	BNE| 	selekane rs1, rs2, mosebetsing|
+|qhoma	|jump and link	|rd = PC + 4; PC += offset|	J 	|JAL	|qhoma r2,loop|
+
+Apostrophe handling 
+
+The assembler accepts the ASCII apostrophe (') inside a mnemonic token so future Sesotho mnemonics can represent forms such as ts' or ch'. Curly Unicode apostrophes are rejected to keep tokenisation predictable on a standard keyboard.
+
+
 
 
