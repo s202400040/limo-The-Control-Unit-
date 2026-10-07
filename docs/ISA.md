@@ -39,3 +39,23 @@ LIMO has sixteen 32-bit general-purpose registers, r0–r15. Each register is se
 Register-field consequence 
 Sixteen registers require 4 bits because 2^4 = 16. Compared with a 32-register design requiring 5-bit register fields, this saves one bit for each register identifier but increases register pressure
 
+3. A3 – Instruction Set
+
+LIMO contains 11 instructions.
+
+|Mnemonic| 	Instruction classes|
+|:---|:---|
+|eketsa |	Arithmetic|
+|fokotsa |	Arithmetic| 
+|eketsi	|Arithmetic|
+|le| 	Logic|
+|kapa 	|Logic|
+|suthela| 	Logic|
+|bala 	|Load|
+|boloka| 	Store|
+|lekana 	|Conditional branch|
+|selekane| 	Conditional branch|
+|qhoma|	jump|
+
+
+
