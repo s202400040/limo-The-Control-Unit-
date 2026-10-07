@@ -160,5 +160,36 @@ Hex: 0x010F0863
 
 Binary: 0000 0000 0000 0000 0100 0111 1110 1111 
 
-Hex: 0x000047EF 
+Hex: 0x000047EF
+
+
+## 6. A6 – Design Decision Log
+
+## a)  Register-file size
+
+Sixteen registers give 4-bit register fields, reducing encoding and comparator width compared with 32 registers. The cost is greater register pressure: longer programs may need more register reuse or memory spills.
+
+## b) Architectural vs microarchitectural registers
+
+r0–r15 and PC are architectural because programs can depend on them. IF/ID, ID/EX, EX/MEM and MEM/WB are pipeline implementation registers. They must not be part of the ISA because the ISA should describe programmer-visible behaviour independently of one pipeline implementation.
+
+## c) Branch resolution
+
+Branches are resolved in EX. This fits the standard five-stage datapath and keeps comparison and target generation simple. A taken branch can require flushing younger instructions already in the pipeline. Resolving earlier could reduce flushes but would add hardware/control complexity in ID.
+
+ ## d) Load-use stall
+
+A load's data becomes available after memory access, while the dependent instruction needs its operand in EX. Even with forwarding, the value is not available soon enough for the immediately following instruction. Therefore, a bubble is required.
+
+## e) Flags register
+
+LIMO does not use a flags register. BEQ and BNE compare registers directly. A flags register would introduce another architectural state and additional dependencies between an instruction that changes flags and a branch that consumes them.
+ 
+
+## f) Growth limits
+
+Register pressure is likely to appear early in small programs, while immediate range and branch reach become more important as programs and loops grow
+
+
+ 
 
