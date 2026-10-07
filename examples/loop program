@@ -1,1 +1,7 @@
 
+eketsi r3, r0, 0      		 # Counter r3 = 0
+eketsi r4, r0, 5       		# Limit r4 = 5
+loop:
+    eketsi r3, r3, 1  		 # r3 = r3 + 1
+    selekane r3, r4, loop 	# Loop while r3 != r4
+
