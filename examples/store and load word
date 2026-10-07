@@ -1,1 +1,5 @@
 
+eketsi r3, r0, 100    	 # Base address = 100
+eketsi r4, r0, 42    	# Data value = 42
+boloka r4, 0(r3)     	# Memory[100] = 42
+bala   r5, 0(r3)       	# r5 = Memory[100] = 42
