@@ -3,7 +3,7 @@
 
 "use strict";
 
-const { assemble } = require("./assembler");
+const { assemble } = require("../docs/assembler");
 
 let passed = 0;
 let failed = 0;
