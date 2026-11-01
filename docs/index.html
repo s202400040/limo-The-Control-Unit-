@@ -72,6 +72,64 @@ code { color:var(--cyan);font-family:Consolas,monospace; }
 .empty strong { display:block;color:var(--text);margin-bottom:7px;font-size:14px; }
 .summary { padding:12px 15px;color:var(--muted);font-size:11px;border-bottom:1px solid var(--line); }
 .table-wrap { overflow:auto;max-height:400px; }
+/* REGISTER TABLE */
+
+#pipelineRegisters {
+    border: 1px solid #27334b;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #111a2b;
+}
+
+#pipelineRegisters .table-wrap {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+#pipelineRegisters table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+#pipelineRegisters th {
+    background: #192640;
+    color: #8eb7ff;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+#pipelineRegisters td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #27334b;
+}
+/* DATA MEMORY */
+
+#pipelineMemory {
+    border: 1px solid #27334b;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #111a2b;
+}
+
+#pipelineMemory .stat {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #27334b;
+    background: transparent;
+    padding: 12px;
+}
+
+#pipelineMemory .stat small {
+    color: #8eb7ff;
+}
+
+#pipelineMemory .stat strong {
+    font-size: 13px;
+    font-family: Consolas, monospace;
+}
 table { width:100%;border-collapse:collapse;font-size:11px; }
 th { position:sticky;top:0;background:#182239;color:var(--muted);text-align:left;text-transform:uppercase;font-size:9px;letter-spacing:.7px; }
 th,td { padding:12px 10px;border-bottom:1px solid #202a40;vertical-align:top; }
@@ -99,6 +157,61 @@ footer { color:#71809e;font-size:11px;line-height:1.7;margin:18px 0; }
 #toast { position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#26344e;border:1px solid var(--line);padding:11px 16px;border-radius:10px;display:none;font-size:12px;z-index:10; }
 @media(max-width:950px) { .workspace{grid-template-columns:1fr}.reference-grid{grid-template-columns:repeat(3,1fr)} }
 @media(max-width:600px) { .app{padding:13px}.stats{grid-template-columns:repeat(2,1fr)}.reference-grid{grid-template-columns:repeat(2,1fr)}.hero h2{font-size:32px} }
+/* PIPELINE SIMULATOR LAYOUT */
+
+.test-panel .panel-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    align-items: start;
+}
+
+/* Pipeline controls */
+.test-panel .panel-body > .button-row {
+    grid-column: 1 / -1;
+}
+
+/* Pipeline statistics */
+.test-panel .panel-body > .stats {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Pipeline stages heading and chips */
+.test-panel .panel-body > h3:nth-of-type(1),
+.test-panel .panel-body > .chips,
+.test-panel .panel-body > h3:nth-of-type(2),
+#pipelineStages {
+    grid-column: 1 / -1;
+}
+
+/* Register values on the left */
+.test-panel .panel-body > h3:nth-of-type(3),
+#pipelineRegisters {
+    grid-column: 1;
+}
+
+/* Data memory on the right */
+.test-panel .panel-body > h3:nth-of-type(4),
+#pipelineMemory {
+    grid-column: 2;
+}
+@media(max-width:850px) {
+
+    .test-panel .panel-body {
+        grid-template-columns: 1fr;
+    }
+
+    .test-panel .panel-body > h3,
+    .test-panel .panel-body > #pipelineRegisters,
+    .test-panel .panel-body > #pipelineMemory {
+        grid-column: 1;
+    }
+
+    #pipelineStages {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 </style>
 </head>
 <body>
@@ -182,6 +295,65 @@ start:
 </section>
 </main>
 
+<!-- M3 PIPELINE SIMULATOR -->
+<section class="panel test-panel">
+    <div class="panel-head">
+        <div>
+            <strong>03 / Pipeline Simulator</strong>
+            <small>Five-stage processor execution</small>
+        </div>
+        <span class="tag">M3 PIPELINE</span>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="button-row">
+            <button class="primary" id="pipelineStep">Step</button>
+            <button id="pipelineRun">Run</button>
+            <button id="pipelinePause">Pause</button>
+            <button id="pipelineReset">Reset</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <small>Current cycle</small>
+                <strong id="pipelineCycles">0</strong>
+            </div>
+
+            <div class="stat">
+                <small>Pipeline status</small>
+                <strong id="pipelineStatus">Ready</strong>
+            </div>
+        </div>
+
+        <h3>Pipeline stages</h3>
+
+        <div class="chips">
+            <code>IF - Instruction Fetch</code>
+            <code>ID - Instruction Decode</code>
+            <code>EX - Execute</code>
+            <code>MEM - Memory</code>
+            <code>WB - Write Back</code>
+        </div>
+        <h3>Pipeline registers</h3>
+
+<div id="pipelineStages">
+    <div class="empty">Pipeline register values will appear here.</div>
+</div>
+
+        <h3>Register values</h3>
+        <div id="pipelineRegisters">
+            <div class="empty">Assemble and load a program to begin.</div>
+        </div>
+
+        <h3>Data memory</h3>
+        <div id="pipelineMemory">
+            <div class="empty">Memory values will appear here.</div>
+        </div>
+
+    </div>
+</section>
+
 <section class="panel reference">
   <div class="panel-head"><div><strong>03 / LIMO instruction reference</strong><small>Supported mnemonics in the current assembler engine</small></div><span class="tag">10 INSTRUCTIONS</span></div>
   <div class="reference-grid">
@@ -220,8 +392,12 @@ start:
 </div>
 <div id="toast" role="status"></div>
 
-<!-- This loads the real assembler engine from the same folder. -->
+<!-- Load the assembler and pipeline engines. -->
 <script src="./assembler.js"></script>
+<script src="./pipeline-registers.js"></script>
+<script src="./pipeline.js"></script>
+<script src="./pipeline-core.js"></script>
+
 <script>
 "use strict";
 (() => {
@@ -416,6 +592,218 @@ $("fileInput").addEventListener("change", async (event) => {
     messages.push({type:"warn",title:"Connect assembler.js",text:"Save assembler.js beside index.html and refresh the page."});
     renderDiagnostics();
   }
+  // ========================================
+// M3 PIPELINE SIMULATOR
+// ========================================
+
+let pipelineRunning = false;
+let pipelineTimer = null;
+
+const pipelineCore = window.LIMOPipelineCore.createCore();
+
+// Display pipeline information
+function renderPipeline(state) {
+
+    $("pipelineCycles").textContent = state.cycles;
+
+    $("pipelineStatus").textContent =
+        state.halted ? "Finished" :
+        pipelineRunning ? "Running" : "Ready";
+
+    // Display registers
+// Display registers in a table
+let registerHTML = `
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Register</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+`;
+
+state.registers.forEach(function(value, index) {
+
+    registerHTML += `
+        <tr>
+            <td><strong>r${index}</strong></td>
+            <td>${value}</td>
+        </tr>
+    `;
+
+});
+
+registerHTML += `
+            </tbody>
+        </table>
+    </div>
+`;
+
+$("pipelineRegisters").innerHTML = registerHTML;
+    // Display actual pipeline register contents
+const stages = state.pipeline;
+
+let stageHTML = "";
+
+const stageNames = [
+    ["IFID", "IF/ID"],
+    ["IDEX", "ID/EX"],
+    ["EXMEM", "EX/MEM"],
+    ["MEMWB", "MEM/WB"]
+];
+
+stageNames.forEach(function(stage) {
+
+    const stageData = stages[stage[0]];
+
+    stageHTML += `
+        <div class="stat">
+            <small>${stage[1]}</small>
+            <strong>${stageData.valid ? "Active" : "Empty"}</strong>
+            <pre>${JSON.stringify(stageData, null, 2)}</pre>
+        </div>
+    `;
+
+});
+
+$("pipelineStages").innerHTML = stageHTML;
+
+    // Display data memory
+    let memoryHTML = "";
+
+    const addresses = Object.keys(state.dataMemory);
+
+    if (addresses.length === 0) {
+
+        memoryHTML = '<div class="empty">No data memory values yet.</div>';
+
+    } else {
+
+        addresses.forEach(function(address) {
+
+            memoryHTML += `
+                <div class="stat">
+                    <small>Memory[${address}]</small>
+                    <strong>${state.dataMemory[address]}</strong>
+                </div>
+            `;
+
+        });
+
+    }
+
+    $("pipelineMemory").innerHTML = memoryHTML;
+}
+
+
+// STEP BUTTON
+$("pipelineStep").addEventListener("click", function() {
+
+    if (!results || results.length === 0) {
+        $("pipelineStatus").textContent = "Assemble first";
+        return;
+    }
+
+    if (!pipelineCore) {
+        $("pipelineStatus").textContent = "Pipeline unavailable";
+        return;
+    }
+
+    pausePipeline();
+
+    const state = pipelineCore.step();
+
+    renderPipeline(state);
+
+});
+
+
+// PAUSE FUNCTION
+function pausePipeline() {
+
+    pipelineRunning = false;
+
+    if (pipelineTimer !== null) {
+        clearTimeout(pipelineTimer);
+        pipelineTimer = null;
+    }
+
+}
+
+
+// RUN BUTTON
+$("pipelineRun").addEventListener("click", function() {
+
+    if (!results || results.length === 0) {
+        $("pipelineStatus").textContent = "Assemble first";
+        return;
+    }
+
+    if (!pipelineCore) {
+        $("pipelineStatus").textContent = "Pipeline unavailable";
+        return;
+    }
+
+    if (pipelineRunning) return;
+
+    pipelineRunning = true;
+
+    function runNextCycle() {
+
+        if (!pipelineRunning) return;
+
+        const state = pipelineCore.step();
+
+        renderPipeline(state);
+
+        if (state.halted) {
+
+            pausePipeline();
+            renderPipeline(state);
+
+            $("pipelineStatus").textContent = "Finished";
+
+            return;
+        }
+
+        pipelineTimer = setTimeout(runNextCycle, 500);
+
+    }
+
+    runNextCycle();
+
+});
+
+
+// PAUSE BUTTON
+$("pipelinePause").addEventListener("click", function() {
+
+    pausePipeline();
+
+    $("pipelineStatus").textContent = "Paused";
+
+});
+
+
+// RESET BUTTON
+$("pipelineReset").addEventListener("click", function() {
+
+    pausePipeline();
+
+    if (!results || results.length === 0) {
+        $("pipelineStatus").textContent = "Assemble first";
+        return;
+    }
+
+    const state = pipelineCore.reset(results);
+
+    renderPipeline(state);
+
+    $("pipelineStatus").textContent = "Ready";
+
+});
 })();
 </script>
 </body>
