@@ -3,7 +3,7 @@
 "use strict";
 
 const assert = require("assert");
-const registers = require("./pipeline-registers.js");
+const registers = require("../docs/pipeline-registers.js");
 
 const pipeline = registers.createPipelineRegisters();
 
