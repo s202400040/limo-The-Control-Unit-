@@ -3,8 +3,8 @@
 "use strict";
 
 const assert = require("assert");
-const assembler = require("./assembler.js");
-const pipelineModule = require("./pipeline-core.js");
+const assembler = require("../docs/assembler.js");
+const pipelineModule = require("../docs/pipeline-core.js");
 
 const core = pipelineModule.createCore();
 
