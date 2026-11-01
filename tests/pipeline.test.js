@@ -3,8 +3,8 @@
 "use strict";
 
 const assert = require("assert");
-const assembler = require("./assembler.js");
-const pipeline = require("./pipeline.js");
+const assembler = require("../docs/assembler.js");
+const pipeline = require("../docs/pipeline.js");
 
 const source = [
     "eketsi r3, r0, 7",
